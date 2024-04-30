@@ -1,4 +1,4 @@
-# Conversor de Moedas - Oracle Next Generation ONE
+# Conversor de Moedas - Oracle Next Education (Alura) - Em desenvolvimento...
 
 Este projeto é um desafio proposto pelo curso da Oracle Next Generation ONE, especialização em Java Backend com Spring Framework, realizado em parceria com a Alura. O objetivo é desenvolver um aplicativo de console em Java que permite aos usuários converter valores entre diferentes moedas.
 
