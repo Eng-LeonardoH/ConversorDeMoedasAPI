@@ -1,7 +1,6 @@
 package Models;
 
 import java.util.Arrays;
-import java.util.Scanner;
 
 public class MenuPrincipal {
 
@@ -29,17 +28,14 @@ public class MenuPrincipal {
         );
     }
 
-    public void recebeOpcao(){
-        Scanner leConsole = new Scanner(System.in);
+    public void recebeOpcao(String opcao){
         while(true) {
-            String leitura = leConsole.next();
-            if (Arrays.asList("1", "2", "3", "4", "5", "6").contains(leitura)) {
+            if (Arrays.asList("1", "2", "3", "4", "5", "6").contains(opcao)) {
                 System.out.println("Opcao recebida com sucesso");
-                this.ultimaOpcaoEscolhida = leitura;
+                this.ultimaOpcaoEscolhida = opcao;
                 break;
-            } else if (leitura.equals("7")) {
-                System.out.println("Você escolheu sair, encerrando o programa...");
-                this.ultimaOpcaoEscolhida = leitura;
+            } else if (opcao.equals("7")) {
+                this.ultimaOpcaoEscolhida = opcao;
                 break;
             } else {
                 System.out.println("Opção incorreta, tente novamente...");
