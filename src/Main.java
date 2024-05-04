@@ -1,78 +1,61 @@
-import java.io.IOException;
-import java.util.InputMismatchException;
-import java.util.Scanner;
-
 import Models.ConversorDeMoedas;
 import Models.MenuPrincipal;
-import com.google.gson.Gson;
 
+import java.io.IOException;
+import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) throws IOException, InterruptedException {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
         MenuPrincipal menu = new MenuPrincipal();
-        ConversorDeMoedas conversor = new ConversorDeMoedas();
-        Gson gson = new Gson();
-        Scanner leConsole = new Scanner(System.in);
 
+        System.out.println("Seja bem-vindo/a ao Conversor de Moeda =]");
 
-        String API = "0709f8b04ad9917ac3e67bd5";
-        String opcao;
-
-
-        while (!menu.getUltimaOpcaoEscolhida().contains("7")) {
+        boolean sair = false;
+        while (!sair) {
             menu.mostrarMenu();
-            menu.recebeOpcao(leConsole.next());
-            opcao = menu.getUltimaOpcaoEscolhida();
-            if (!opcao.equals("7")) {
-                System.out.println("Preparando para converter valores...");
-                System.out.println(" - Criando URL...");
-                conversor.preparaUrl(API,
-                        opcao.equals("1") ? "USD" :
-                            opcao.equals("2") ? "ARS" :
-                                opcao.equals("3") ? "USD" :
-                                    opcao.equals("4") ? "BRL" :
-                                        opcao.equals("5") ? "USD" :
-                                            opcao.equals("6") ? "COP" :
-                                                null);
-                System.out.println(" -  URL criada com sucesso: " + conversor.getUrlApi());
-                System.out.println(conversor.geraMensagemDePedidoDeValor(
-                        opcao.equals("1") ? "ARS" :
-                            opcao.equals("2") ? "USD" :
-                                opcao.equals("3") ? "BRL" :
-                                    opcao.equals("4") ? "USD" :
-                                        opcao.equals("5") ? "COP" :
-                                            opcao.equals("6") ? "USD" :
-                                                null));
-                boolean entradaValida = false;
-                while (!entradaValida){
-                    try {
-                        conversor.setValorParaConverter(leConsole.nextDouble());
-                        entradaValida = true;
-                    } catch (InputMismatchException ime){
-                        System.out.println("Entrada inválida, tente novamente.");
-                        leConsole.nextLine();
-                    }
-                }
-                System.out.println("O valor armazenado no atributo de classe foi: " +
-                        conversor.getValorParaConverter());
-                //seguir com a inclusão dos métodos para converter valor recebido para a moeda
-                //de destino de acordo com os valores obtidos via API
-            } else {
-                System.out.println("Você escolheu sair. Encerrando programa...");
-                leConsole.close();
-                System.out.println("Programa encerrado...");
+            int opcao = scanner.nextInt();
+            switch (opcao) {
+                case 1:
+                    converterMoedas(scanner, "USD", "ARS");
+                    break;
+                case 2:
+                    converterMoedas(scanner, "ARS", "USD");
+                    break;
+                case 3:
+                    converterMoedas(scanner, "USD", "BRL");
+                    break;
+                case 4:
+                    converterMoedas(scanner, "BRL", "USD");
+                    break;
+                case 5:
+                    converterMoedas(scanner, "USD", "COP");
+                    break;
+                case 6:
+                    converterMoedas(scanner, "COP", "USD");
+                    break;
+                case 7:
+                    sair = true;
+                    System.out.println("Saindo...");
+                    break;
+                default:
+                    System.out.println("Opção inválida. Por favor, escolha uma opção válida.");
             }
         }
     }
+
+    public static void converterMoedas(Scanner scanner, String moedaOrigem, String moedaDestino) {
+        System.out.println("Digite o valor a ser convertido:");
+        double valor = scanner.nextDouble();
+        ConversorDeMoedas Conversor = new ConversorDeMoedas();
+
+        try {
+            double valorConvertido = Conversor.converteMoeda(valor, moedaOrigem, moedaDestino);
+            System.out.println("*****************************************************");
+            System.out.println(valor + " " + moedaOrigem + " equivale a " + valorConvertido + " " + moedaDestino);
+
+        } catch (IOException | InterruptedException e) {
+            System.out.println("Erro ao converter moeda: " + e.getMessage());
+        }
+    }
 }
-
-
-//        ConversorDeMoedas conversor = new ConversorDeMoedas();
-//            HttpClient client = HttpClient.newHttpClient();
-//            HttpRequest request = HttpRequest.newBuilder()
-//                    .uri(URI.create(url))
-//                    .build();
-//            HttpResponse<String> response = client
-//                    .send(request, HttpResponse.BodyHandlers.ofString());
-//            System.out.println(response.body());
-//
